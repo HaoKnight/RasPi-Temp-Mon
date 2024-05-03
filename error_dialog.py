@@ -1,6 +1,6 @@
 from PyQt6.uic import loadUi
 
-from 程序文件.utils import clear_input_fields
+from utils import clear_input_fields
 
 
 def show_error_dialog(window, message):
