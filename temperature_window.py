@@ -7,13 +7,18 @@ from error_dialog import show_error_dialog
 from settings import load_settings, save_settings
 from ssh_client import SSHClient
 from status_bar import CustomStatusBar
+from theme import ThemeManager
 
 
 class TemperatureWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+
+        self.ssh = None
         self.ui = loadUi("TemperatureDetection.ui", self)
         self.setWindowTitle("Raspberry Pi Temperature Monitor")
+
+        self.ui.TEMP.mousePressEvent = self.toggle_theme
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_temperature)
@@ -34,6 +39,9 @@ class TemperatureWindow(QMainWindow):
         if self.ui.IPEdit.text() and self.ui.UserEdit.text() and self.ui.PasswordEdit.text():
             self.start_measurement()
 
+    @staticmethod
+    def toggle_theme(event):
+        ThemeManager.toggle_theme()
 
     def start_measurement(self):
         ip = self.ui.IPEdit.text()
